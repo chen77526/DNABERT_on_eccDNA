@@ -233,10 +233,7 @@ def train(args, train_dataset, model, tokenizer):
     # Check if continuing training from a checkpoint
     if os.path.exists(args.model_name_or_path):
         # set global_step to gobal_step of last saved checkpoint from model path
-        try:
-            global_step = int(args.model_name_or_path.split("-")[-1].split("/")[0])
-        except:
-            global_step = 0
+        global_step = int(args.model_name_or_path.split("-")[-1].split("/")[0])
         epochs_trained = global_step // (len(train_dataloader) // args.gradient_accumulation_steps)
         steps_trained_in_current_epoch = global_step % (len(train_dataloader) // args.gradient_accumulation_steps)
 
@@ -330,7 +327,7 @@ def train(args, train_dataset, model, tokenizer):
                             logs[eval_key] = value
 
                     loss_scalar = (tr_loss - logging_loss) / args.logging_steps
-                    learning_rate_scalar = scheduler.get_lr()[0]
+                    learning_rate_scalar = scheduler.get_last_lr()[0]
                     logs["learning_rate"] = learning_rate_scalar
                     logs["loss"] = loss_scalar
                     logging_loss = tr_loss
@@ -369,6 +366,8 @@ def train(args, train_dataset, model, tokenizer):
         if args.max_steps > 0 and global_step > args.max_steps:
             train_iterator.close()
             break
+
+        torch.cuda.empty_cache()
 
     if args.local_rank in [-1, 0]:
         tb_writer.close()
@@ -462,9 +461,10 @@ def evaluate(args, model, tokenizer, prefix="", evaluate=True):
                 eval_result = ""
 
             logger.info("***** Eval results {} *****".format(prefix))
-            for key in sorted(result.keys()):
+            for key in result.keys():
                 logger.info("  %s = %s", key, str(result[key]))
                 eval_result = eval_result + str(result[key])[:5] + " "
+            logger.info("  loss = {}".format(eval_loss))
             writer.write(eval_result + "\n")
 
     if args.do_ensemble_pred:
@@ -548,8 +548,9 @@ def predict(args, model, tokenizer, prefix=""):
                os.makedir(pred_output_dir)
         output_pred_file = os.path.join(pred_output_dir, "pred_results.npy")
         logger.info("***** Pred results {} *****".format(prefix))
-        for key in sorted(result.keys()):
+        for key in result.keys():
             logger.info("  %s = %s", key, str(result[key]))
+        logger.info("  loss = {}".format(pred_loss))
         np.save(output_pred_file, probs)
 
 
@@ -609,7 +610,7 @@ def visualize(args, model, tokenizer, kmer, prefix=""):
             preds = np.zeros([len(pred_dataset),2])
         else:
             preds = np.zeros([len(pred_dataset),3])
-        attention_scores = np.zeros([len(pred_dataset), 12, args.max_seq_length, args.max_seq_length])
+        attention_scores = np.zeros([len(pred_dataset), 12, args.max_seq_length, args.max_seq_length], dtype='uint8')
         
         for index, batch in enumerate(tqdm(pred_dataloader, desc="Predicting")):
             model.eval()
@@ -960,7 +961,7 @@ def main():
     parser.add_argument(
         "--visualize_models", type=int, default=None, help="The model used to do visualization. If None, use 3456.",
     )
-    parser.add_argument("--seed", type=int, default=42, help="random seed for initialization")
+    parser.add_argument("--seed", type=int, default=45, help="random seed for initialization")
 
 
     parser.add_argument(
