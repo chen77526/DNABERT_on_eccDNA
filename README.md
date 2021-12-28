@@ -1,6 +1,8 @@
 ## Citation
 Yanrong Ji, Zhihan Zhou, Han Liu, Ramana V Davuluri, DNABERT: pre-trained Bidirectional Encoder Representations from Transformers model for DNA-language in genome, Bioinformatics, 2021;, btab083, https://doi.org/10.1093/bioinformatics/btab083
 
+[their github](https://github.com/jerryji1993/DNABERT)
+
 ## DNABERT/
 DNABERT model
 
