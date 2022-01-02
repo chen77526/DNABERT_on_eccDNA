@@ -1,10 +1,11 @@
 ## Citation
 Yanrong Ji, Zhihan Zhou, Han Liu, Ramana V Davuluri, DNABERT: pre-trained Bidirectional Encoder Representations from Transformers model for DNA-language in genome, Bioinformatics, 2021;, btab083, https://doi.org/10.1093/bioinformatics/btab083
 
-[their github](https://github.com/jerryji1993/DNABERT)
+[reference github](https://github.com/jerryji1993/DNABERT)
 
 ## DNABERT/
 DNABERT model
+(result_transform.py is for visualizing output of DNABERT, containing original labels, sequence ID, and prediction labels)
 
 ## eccDNA/
 EccDNA data pre-processing about DNABERT
@@ -33,6 +34,6 @@ They also provide a model with `KMER=6` that is fine-tuned on the sample dataset
 
 ## Download DNABERT eccDNA example
 
-[PC-3](https://drive.google.com/drive/folders/1hi_nr4_9CbKblrrrrSyL-o5RcpmtF8YI?usp=sharing)
+[PC-3 sample dataset](https://drive.google.com/drive/folders/1hi_nr4_9CbKblrrrrSyL-o5RcpmtF8YI?usp=sharing)
 
 Please place these 2 files into "DNABERT/example/sample_data/ft/eccdna_PC-3_comparison/6/"

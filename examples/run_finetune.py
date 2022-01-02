@@ -24,6 +24,7 @@ import os
 import re
 import shutil
 import random
+import gc
 from multiprocessing import Pool
 from typing import Dict, List, Tuple
 from copy import deepcopy
@@ -367,6 +368,7 @@ def train(args, train_dataset, model, tokenizer):
             train_iterator.close()
             break
 
+        gc.collect()
         torch.cuda.empty_cache()
 
     if args.local_rank in [-1, 0]:
@@ -506,6 +508,7 @@ def predict(args, model, tokenizer, prefix=""):
         nb_pred_steps = 0
         preds = None
         out_label_ids = None
+        out_datas = None
         for batch in tqdm(pred_dataloader, desc="Predicting"):
             model.eval()
             batch = tuple(t.to(args.device) for t in batch)
@@ -522,9 +525,11 @@ def predict(args, model, tokenizer, prefix=""):
             if preds is None:
                 preds = logits.detach().cpu().numpy()
                 out_label_ids = inputs["labels"].detach().cpu().numpy()
+                out_datas = inputs["input_ids"].detach().cpu().numpy()
             else:
                 preds = np.append(preds, logits.detach().cpu().numpy(), axis=0)
                 out_label_ids = np.append(out_label_ids, inputs["labels"].detach().cpu().numpy(), axis=0)
+                out_datas = np.append(out_datas, inputs["input_ids"].detach().cpu().numpy(), axis=0)
 
         if args.output_mode == "classification":
             if args.task_name[:3] == "dna" and args.task_name != "dnasplice":
@@ -543,6 +548,8 @@ def predict(args, model, tokenizer, prefix=""):
         else:
             result = compute_metrics(pred_task, preds, out_label_ids, probs)
         
+        result_data = np.concatenate((out_datas, out_label_ids.reshape(out_label_ids.shape[0], -1), preds.reshape(preds.shape[0], -1)), axis=1)
+
         pred_output_dir = args.predict_dir
         if not os.path.exists(pred_output_dir):
                os.makedir(pred_output_dir)
@@ -552,6 +559,7 @@ def predict(args, model, tokenizer, prefix=""):
             logger.info("  %s = %s", key, str(result[key]))
         logger.info("  loss = {}".format(pred_loss))
         np.save(output_pred_file, probs)
+        np.savetxt("result_{}_{}.tsv".format(args.train_type, args.test_type), result_data, fmt='%i', delimiter='\t')
 
 
 def format_attention(attention):
@@ -980,6 +988,8 @@ def main():
     parser.add_argument("--server_ip", type=str, default="", help="For distant debugging.")
     parser.add_argument("--server_port", type=str, default="", help="For distant debugging.")
 
+    parser.add_argument("--train_type", type=str, default="", help="For result files name")
+    parser.add_argument("--test_type", type=str, default="", help="For result files name")
 
     args = parser.parse_args()
 
