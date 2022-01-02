@@ -5,10 +5,10 @@ Yanrong Ji, Zhihan Zhou, Han Liu, Ramana V Davuluri, DNABERT: pre-trained Bidire
 
 ## DNABERT/
 DNABERT model
-##### result_transform.py
+##### *result_transform.py*
 For visualizing output of DNABERT. Output contains every sequence token ID, original label, and prediction label
 argument: --data -> dataset name
-##### ID2sequence.py
+##### *ID2sequence.py*
 Ttransform token ID back to eccDNA sequence
 argument: --type -> TP or TN ; --data -> dataset name
 
