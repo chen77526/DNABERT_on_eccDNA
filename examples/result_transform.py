@@ -1,8 +1,6 @@
 import pandas as pd
 import argparse
 
-mapping = pd.read_csv('../6-new-12w-0/vocab.txt', header=None)
-
 def findTPTN(ID):
     focus = pd.read_csv('result_{}_leukocytes.tsv'.format(ID), header=None, delimiter='\t')
     focus_re = focus.rename(columns={focus.columns[-2]: 'label', focus.columns[-1]: 'preds'})
@@ -18,8 +16,6 @@ if __name__ == '__main__':
     dataType = ['C4-2', 'ES2', 'HeLaS3', 'LnCap', 'OVCAR8', 'PC-3', 'U937', 'leukocytes', 'muscle', 'pool_LCN', 'pool_LCT']
     TP, TN = [], []
     for typeID in dataType:
-        if typeID == args.data:
-            continue
         result = findTPTN(typeID)
         TP.append(result['TP'])
         TN.append(result['TN'])
