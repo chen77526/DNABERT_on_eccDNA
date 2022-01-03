@@ -8,7 +8,7 @@ DNABERT model
 ##### *result_transform.py* (code I added)
 For visualizing output of DNABERT. Transfer output token ID back to DNA sequence and show its type in confusion matrix
 
-output file path : ./tsv_result/
+output file path : ./examples/tsv_result/
 
 argument : --data -> dataset name
 
