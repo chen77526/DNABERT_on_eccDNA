@@ -2,7 +2,7 @@ import pandas as pd
 import argparse
 
 def findTPTN(ID):
-    focus = pd.read_csv('result_{}_leukocytes.tsv'.format(ID), header=None, delimiter='\t')
+    focus = pd.read_csv('result_{}_{}.tsv'.format(ID, args.data), header=None, delimiter='\t')
     focus_re = focus.rename(columns={focus.columns[-2]: 'label', focus.columns[-1]: 'preds'})
     focus_TP = focus_re[(focus_re['label'] == 1) & (focus_re['preds'] == 1)]
     focus_TN = focus_re[(focus_re['label'] == 0) & (focus_re['preds'] == 0)]
