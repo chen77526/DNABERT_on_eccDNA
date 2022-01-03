@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import argparse
+import os
 
 mapping = pd.read_csv('../6-new-12w-0/vocab.txt', header=None)
 mapping.columns = ['token']
@@ -18,7 +19,7 @@ def findTPTN(ID):
     focus_re['result'] = np.select(conditions, choices)
     result = pd.Series(focus_re['result'])
     print(result)
-    result.to_csv('./{}_{}_result.tsv'.format(ID, args.data), sep='\t')
+    result.to_csv('./tsv_result/{}/{}_{}_result.tsv'.format(args.data, ID, args.data), sep='\t')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -36,7 +37,12 @@ if __name__ == '__main__':
     
     inputTsv_seq = pd.Series(inputTsv_seq[inputTsv_seq.columns].values.tolist()).str.join('')
     print(inputTsv_seq)
-    inputTsv_seq.to_csv('./{}_seq.tsv'.format(args.data), sep='\t')
+    
+    outdir = './tsv_result/{}'.format(args.data)
+    if not os.path.exists(outdir):
+        os.mkdir(outdir)
+        
+    inputTsv_seq.to_csv('{}/{}_seq.tsv'.format(outdir, args.data), sep='\t')
 
     dataType = ['C4-2', 'ES2', 'HeLaS3', 'LnCap', 'OVCAR8', 'PC-3', 'U937', 'leukocytes', 'muscle', 'pool_LCN', 'pool_LCT']
     for typeID in dataType:
