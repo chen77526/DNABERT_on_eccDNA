@@ -3,9 +3,10 @@ Yanrong Ji, Zhihan Zhou, Han Liu, Ramana V Davuluri, DNABERT: pre-trained Bidire
 
 [reference github](https://github.com/jerryji1993/DNABERT)
 
-## DNABERT/
-DNABERT model
-##### *result_transform.py* (code I added)
+## Home directory
+#### DNABERT model
+
+##### *./examples/result_transform.py* (code I added)
 For visualizing output of DNABERT. Transfer output token ID back to DNA sequence and show its type in confusion matrix
 
 output file path : ./examples/tsv_result/
@@ -13,7 +14,7 @@ output file path : ./examples/tsv_result/
 argument : --data -> dataset name
 
 ## eccDNA/
-EccDNA data pre-processing about DNABERT
+#### EccDNA data pre-processing about DNABERT
 
 ## Download pre-trained DNABERT
 ##### (Refer to https://github.com/jerryji1993/DNABERT) 

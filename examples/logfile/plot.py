@@ -43,6 +43,7 @@ if __name__ == '__main__':
     
     plt.figure(1)
     plt.plot(xnew, ll_smooth)
+    plt.title('{} eccDNA'.format(args.input.split('/')[1].split('_')[0]), fontdict = {'fontsize' : 30})
     plt.xlabel('steps', fontsize = 20)
     if args.data == 'acc':
         plt.ylabel('Accuracy', fontsize = 20)
