@@ -3,9 +3,6 @@ import pandas as pd
 import argparse
 import os
 
-mapping = pd.read_csv('../6-new-12w-0/vocab.txt', header=None)
-mapping.columns = ['token']
-
 def findTPTN(ID):
     focus = pd.read_csv('result_{}_{}.tsv'.format(ID, args.data), header=None, delimiter='\t')
     focus_re = focus.rename(columns={focus.columns[-2]: 'label', focus.columns[-1]: 'preds'})
