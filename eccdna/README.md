@@ -52,3 +52,11 @@ Shell script for pre-processing a new dataset and put the dataset into "../examp
 
 ## label_generate.py
 generate train.tsv & dev.tsv for each dataset which matches input type of DNABERT
+
+```
+python label_generate.py --length 1024 --data mouse
+
+arguments:
+    --length            sequence length
+    --data              species name of eccdna
+```
