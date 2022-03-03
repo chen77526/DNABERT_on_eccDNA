@@ -2,13 +2,13 @@
 Filter eccDNA sequence length(< 1000 neucleotides)
 
 ```
-python bed_limit.py 
-    --extend 512
-    --limit 1000
-    --species mouse
-    --boundary ./genome/mouse/mouse.genome
-    --gap ./genome/mouse/exclude.sorted.bed
-    --eccdna ./db/mouse/mouse_circleseq_eccdna_filt_uniq.bed
+python bed_limit.py \
+    --extend 512 \
+    --limit 1000 \
+    --species mouse \
+    --boundary ./genome/mouse/mouse.genome \
+    --gap ./genome/mouse/exclude.sorted.bed \
+    --eccdna ./db/mouse/mouse_circleseq_eccdna_filt_uniq.bed \
     --output ./db/mouse/
 
 arguments:
