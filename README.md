@@ -14,7 +14,7 @@ output file path : ./examples/tsv_result/
 argument : --data -> dataset name
 
 ## eccDNA/
-#### EccDNA data pre-processing about DNABERT
+#### EccDNA data pre-processing about DNABERT [README](https://github.com/chen77526/DNABERT_on_eccDNA/blob/dev/eccdna/README.md)
 
 ## Download pre-trained DNABERT
 ##### (Refer to https://github.com/jerryji1993/DNABERT) 
