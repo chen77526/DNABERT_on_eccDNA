@@ -3,9 +3,6 @@ import pandas as pd
 import argparse
 import os
 
-mapping = pd.read_csv('../6-new-12w-0/vocab.txt', header=None)
-mapping.columns = ['token']
-
 def findTPTN(ID):
     focus = pd.read_csv('result_{}_{}.tsv'.format(ID, args.data), header=None, delimiter='\t')
     focus_re = focus.rename(columns={focus.columns[-2]: 'label', focus.columns[-1]: 'preds'})
@@ -47,33 +44,3 @@ if __name__ == '__main__':
     dataType = ['C4-2', 'ES2', 'HeLaS3', 'LnCap', 'OVCAR8', 'PC-3', 'U937', 'leukocytes', 'muscle', 'pool_LCN', 'pool_LCT']
     for typeID in dataType:
         result = findTPTN(typeID)
-        # TP.append(result['TP'])
-        # TN.append(result['TN'])
-        # FP.append(result['FP'])
-        # FN.append(result['FN'])
-
-    # for i in range(len(TP)):
-    #     for col in TP[i].columns:
-    #         # print(TP[i][col])
-    #         if ((TP[i][col] < 5).any()):
-    #             TP[i].drop(col, inplace=True, axis=1)
-    #         if ((TN[i][col] < 5).any()):
-    #             TN[i].drop(col, inplace=True, axis=1)
-    #         if ((FP[i][col] < 5).any()):
-    #             FP[i].drop(col, inplace=True, axis=1)
-    #         if ((FN[i][col] < 5).any()):
-    #             FN[i].drop(col, inplace=True, axis=1)
-    
-    # TP_all = TP[0].copy()
-    # TN_all = TN[0].copy()
-    # FP_all = FP[0].copy()
-    # FN_all = FN[0].copy()
-
-    # print('************ TP ************\n', TP_all, '************ TN ************\n', TN_all)
-    # print('************ FP ************\n', FP_all, '************ FN ************\n', FN_all)
-    # for i in range(1, len(TP)):
-    #     TP_all = pd.merge(left=TP_all, right=TP[i], how='inner')
-    #     TN_all = pd.merge(left=TN_all, right=TN[i], how='inner')
-
-    # TP_all.to_csv('./TP_{}.csv'.format(args.data), sep='\t')
-    # TN_all.to_csv('./TN_{}.csv'.format(args.data), sep='\t')
