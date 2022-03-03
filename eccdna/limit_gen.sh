@@ -26,7 +26,7 @@ bedtools getfasta -fi ./genome/$species/$geno_ref -bed ./db/$db_dir/${species}_c
 bedtools getfasta -fi ./genome/$species/$geno_ref -bed ./db/$db_dir/${species}_circleseq_eccdna_filt_uniq_comp_${seq_len}_${limit}.bed -fo ./output/$species/${species}_negative_${seq_len}_limit.fa.out
 
 ### Cut FASTA format into 6-mers and append its label to every sequence
-python label_generate.py --length $seq_len --data $species --gene $cellline
+python label_generate.py --length $seq_len --data $species
 
 ### (very important)Need to rename old label_${seq_len}_dev.tsv & label_${seq_len}.tsv & train.tsv & dev.tsv
 cd output/$species/
@@ -39,8 +39,8 @@ mkdir $eccdna_dir
 cd $eccdna_dir/
 mkdir 6
 cd 6/
-cp /home/bits_home02/jhchen/eccdna/output/$species/train.tsv ./
-cp /home/bits_home02/jhchen/eccdna/output/$species/dev.tsv ./
+cp ../../../../../eccdna/output/$species/train.tsv ./
+cp ../../../../../eccdna/output/$species/dev.tsv ./
 
 ### Add header line to these .tsv files
 cat ../../template.txt ./dev.tsv > ./dev2.tsv
