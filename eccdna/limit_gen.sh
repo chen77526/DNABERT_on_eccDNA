@@ -3,26 +3,27 @@
 export ext=512                                                          # number of bp extended from center
 export seq_len=1024                                                     # sequence length
 export limit=1000                                                       # limit sequence length
-export cellline=HeLaS3                                                  # name of cellline
-export db_dir=cell_lines                                                # db directory name
-export species=human                                                    # reference genome directory name
-export geno_bound=hg38_noalt.fa.genome                                  # reference genome boundary name
-export geno_ref=hg38_noalt.fa                                           # reference genome name
-export eccdna_dir=eccdna_${cellline}_limit${limit}                      # eccdna directory name
+export db_dir=mouse                                                     # db directory name
+export eccdna_bed=mouse_circleseq_eccdna_filt_uniq.bed                  # reference eccdna bed file
+export species=mouse                                                    # reference genome directory name
+export geno_bound=mouse.genome                                          # reference genome boundary name
+export geno_ref=GRCm39.fa                                               # reference genome name
+export geno_gap=exclude.sorted.bed                                      # reference genome gap name
+export eccdna_dir=eccdna_${species}_limit${limit}                       # eccdna directory name
 
 ### Acoording to sequence length contraint, check original .bed files and produce corresponding positive label .bed file
 ### and sequence need to removed in order to generate a negative label .bed file
-python bed_human_limit.py --extend $ext --cellline $cellline --limit $limit
+python bed_limit.py --extend $ext --species $species --limit $limit --boundary ./genome/$species/$geno_bound --gap ./genome/$species/$geno_gap --eccdna ./db/$species/$eccdna_bed --output ./db/$species/
 
 ### Generate negative label .bed file
-bedtools shuffle -i ./db/$db_dir/${cellline}_circleseq_eccdna_filt_uniq_seq_${seq_len}_${limit}.bed -g ./genome/$species/$geno_bound -excl ./db/$db_dir/${cellline}_circleseq_eccdna_filt_uniq_excl_${seq_len}_${limit}.bed > ./db/$db_dir/${cellline}_circleseq_eccdna_filt_uniq_comp_${seq_len}_${limit}.bed
+bedtools shuffle -i ./db/$db_dir/${species}_circleseq_eccdna_filt_uniq_seq_${seq_len}_${limit}.bed -g ./genome/$species/$geno_bound -excl ./db/$db_dir/${species}_circleseq_eccdna_filt_uniq_excl_${seq_len}_${limit}.bed > ./db/$db_dir/${species}_circleseq_eccdna_filt_uniq_comp_${seq_len}_${limit}.bed
 
 ### Check if negative label .bed is intersect with positive label .bed
-bedtools intersect -a ./db/$db_dir/${cellline}_circleseq_eccdna_filt_uniq_comp_${seq_len}_${limit}.bed -b ./db/$db_dir/${cellline}_circleseq_eccdna_filt_uniq_excl_${seq_len}_${limit}.bed
+bedtools intersect -a ./db/$db_dir/${species}_circleseq_eccdna_filt_uniq_comp_${seq_len}_${limit}.bed -b ./db/$db_dir/${species}_circleseq_eccdna_filt_uniq_excl_${seq_len}_${limit}.bed
 
 ### Acquire its corresponding FASTA file
-bedtools getfasta -fi ./genome/$species/$geno_ref -bed ./db/$db_dir/${cellline}_circleseq_eccdna_filt_uniq_seq_${seq_len}_${limit}.bed -fo ./output/$species/${species}_${cellline}_positive_${seq_len}_limit.fa.out
-bedtools getfasta -fi ./genome/$species/$geno_ref -bed ./db/$db_dir/${cellline}_circleseq_eccdna_filt_uniq_comp_${seq_len}_${limit}.bed -fo ./output/$species/${species}_${cellline}_negative_${seq_len}_limit.fa.out
+bedtools getfasta -fi ./genome/$species/$geno_ref -bed ./db/$db_dir/${species}_circleseq_eccdna_filt_uniq_seq_${seq_len}_${limit}.bed -fo ./output/$species/${species}_positive_${seq_len}_limit.fa.out
+bedtools getfasta -fi ./genome/$species/$geno_ref -bed ./db/$db_dir/${species}_circleseq_eccdna_filt_uniq_comp_${seq_len}_${limit}.bed -fo ./output/$species/${species}_negative_${seq_len}_limit.fa.out
 
 ### Cut FASTA format into 6-mers and append its label to every sequence
 python label_generate.py --length $seq_len --data $species --gene $cellline
@@ -38,8 +39,8 @@ mkdir $eccdna_dir
 cd $eccdna_dir/
 mkdir 6
 cd 6/
-cp ../../../../../eccdna/output/$species/train.tsv ./
-cp ../../../../../eccdna/output/$species/dev.tsv ./
+cp /home/bits_home02/jhchen/eccdna/output/$species/train.tsv ./
+cp /home/bits_home02/jhchen/eccdna/output/$species/dev.tsv ./
 
 ### Add header line to these .tsv files
 cat ../../template.txt ./dev.tsv > ./dev2.tsv
