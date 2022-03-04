@@ -39,8 +39,8 @@ mkdir $eccdna_dir
 cd $eccdna_dir/
 mkdir 6
 cd 6/
-cp ../../../../../eccdna/output/$species/train.tsv ./
-cp ../../../../../eccdna/output/$species/dev.tsv ./
+cp ../../../../../../eccdna/output/$species/train.tsv ./
+cp ../../../../../../eccdna/output/$species/dev.tsv ./
 
 ### Add header line to these .tsv files
 cat ../../template.txt ./dev.tsv > ./dev2.tsv
