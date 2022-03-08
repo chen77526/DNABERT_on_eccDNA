@@ -20,8 +20,8 @@ def seq2kmer(seq, k):
 def mainf():
     with open ('./output/{}/label_{}.tsv'.format(args.data, args.length), 'w') as output_f1:
         with open ('./output/{}/label_{}_dev.tsv'.format(args.data, args.length), 'w') as output_f2:
-            with open('./output/{}/{}_positive_{}_limit.fa.out'.format(args.data, args.data, args.length), 'r') as input_f1:
-                with open('./output/{}/{}_negative_{}_limit.fa.out'.format(args.data, args.data, args.length), 'r') as input_f2:
+            with open('./output/{}/{}_positive_{}_limit.fa.out'.format(args.data, args.cellline, args.length), 'r') as input_f1:
+                with open('./output/{}/{}_negative_{}_limit.fa.out'.format(args.data, args.cellline, args.length), 'r') as input_f2:
                     ### split sequence into 6-mers
                     num1, num2 = 0, 0
                     positive, negative = [], []
@@ -53,5 +53,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--length", type=str, default = '512')                  # sequence length
     parser.add_argument("--data", type=str)                                     # species name
+    parser.add_argument("--cellline", type=str)                                 # type name
     args = parser.parse_args()
     mainf()

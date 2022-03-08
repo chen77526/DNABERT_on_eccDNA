@@ -54,9 +54,10 @@ Shell script for pre-processing a new dataset and put the dataset into "../examp
 generate train.tsv & dev.tsv for each dataset which matches input type of DNABERT
 
 ```
-python label_generate.py --length 1024 --data mouse
+python label_generate.py --length 1024 --data mouse --cellline embryoMouseBrain
 
 arguments:
     --length            sequence length
     --data              species name of eccdna
+    --cellline          type name
 ```

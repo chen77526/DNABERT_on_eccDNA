@@ -5,7 +5,7 @@ export seq_len=1024                                                     # sequen
 export limit=1000                                                       # limit sequence length
 export db_dir=mouse                                                     # db directory name
 export eccdna_bed=mouse_circleseq_eccdna_filt_uniq.bed                  # reference eccdna bed file
-export species=mouse                                                    # reference genome directory name
+export species=mouse                                                    # species name / cell line name
 export geno_bound=mouse.genome                                          # reference genome boundary name
 export geno_ref=GRCm39.fa                                               # reference genome name
 export geno_gap=exclude.sorted.bed                                      # reference genome gap name
@@ -13,23 +13,23 @@ export eccdna_dir=eccdna_${species}_limit${limit}                       # eccdna
 
 ### Acoording to sequence length contraint, check original .bed files and produce corresponding positive label .bed file
 ### and sequence need to removed in order to generate a negative label .bed file
-python bed_limit.py --extend $ext --species $species --limit $limit --boundary ./genome/$species/$geno_bound --gap ./genome/$species/$geno_gap --eccdna ./db/$species/$eccdna_bed --output ./db/$species/
+python bed_limit.py --extend $ext --species $species --limit $limit --boundary ./genome/$db_dir/$geno_bound --gap ./genome/$db_dir/$geno_gap --eccdna ./db/$db_dir/$eccdna_bed --output ./db/$db_dir/
 
 ### Generate negative label .bed file
-bedtools shuffle -i ./db/$db_dir/${species}_circleseq_eccdna_filt_uniq_seq_${seq_len}_${limit}.bed -g ./genome/$species/$geno_bound -excl ./db/$db_dir/${species}_circleseq_eccdna_filt_uniq_excl_${seq_len}_${limit}.bed > ./db/$db_dir/${species}_circleseq_eccdna_filt_uniq_comp_${seq_len}_${limit}.bed
+bedtools shuffle -i ./db/$db_dir/${species}_circleseq_eccdna_filt_uniq_seq_${seq_len}_${limit}.bed -g ./genome/$db_dir/$geno_bound -excl ./db/$db_dir/${species}_circleseq_eccdna_filt_uniq_excl_${seq_len}_${limit}.bed > ./db/$db_dir/${species}_circleseq_eccdna_filt_uniq_comp_${seq_len}_${limit}.bed
 
 ### Check if negative label .bed is intersect with positive label .bed
 bedtools intersect -a ./db/$db_dir/${species}_circleseq_eccdna_filt_uniq_comp_${seq_len}_${limit}.bed -b ./db/$db_dir/${species}_circleseq_eccdna_filt_uniq_excl_${seq_len}_${limit}.bed
 
 ### Acquire its corresponding FASTA file
-bedtools getfasta -fi ./genome/$species/$geno_ref -bed ./db/$db_dir/${species}_circleseq_eccdna_filt_uniq_seq_${seq_len}_${limit}.bed -fo ./output/$species/${species}_positive_${seq_len}_limit.fa.out
-bedtools getfasta -fi ./genome/$species/$geno_ref -bed ./db/$db_dir/${species}_circleseq_eccdna_filt_uniq_comp_${seq_len}_${limit}.bed -fo ./output/$species/${species}_negative_${seq_len}_limit.fa.out
+bedtools getfasta -fi ./genome/$db_dir/$geno_ref -bed ./db/$db_dir/${species}_circleseq_eccdna_filt_uniq_seq_${seq_len}_${limit}.bed -fo ./output/$db_dir/${species}_positive_${seq_len}_limit.fa.out
+bedtools getfasta -fi ./genome/$db_dir/$geno_ref -bed ./db/$db_dir/${species}_circleseq_eccdna_filt_uniq_comp_${seq_len}_${limit}.bed -fo ./output/$db_dir/${species}_negative_${seq_len}_limit.fa.out
 
 ### Cut FASTA format into 6-mers and append its label to every sequence
 python label_generate.py --length $seq_len --data $species
 
 ### (very important)Need to rename old label_${seq_len}_dev.tsv & label_${seq_len}.tsv & train.tsv & dev.tsv
-cd output/$species/
+cd output/$db_dir/
 shuf -o dev.tsv < label_${seq_len}_dev.tsv
 shuf -o train.tsv < label_${seq_len}.tsv
 
@@ -39,8 +39,8 @@ mkdir $eccdna_dir
 cd $eccdna_dir/
 mkdir 6
 cd 6/
-cp ../../../../../eccdna/output/$species/train.tsv ./
-cp ../../../../../eccdna/output/$species/dev.tsv ./
+cp ../../../../../../eccdna/output/$db_dir/train.tsv ./
+cp ../../../../../../eccdna/output/$db_dir/dev.tsv ./
 
 ### Add header line to these .tsv files
 cat ../../template.txt ./dev.tsv > ./dev2.tsv
