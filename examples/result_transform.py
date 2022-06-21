@@ -23,7 +23,7 @@ if __name__ == '__main__':
     parser.add_argument("--data", type=str, default='C4-2')
     args = parser.parse_args()
 
-    inputTsv = pd.read_csv('./sample_data/ft/eccdna_{}_comparison/6/dev.tsv'.format(args.data), skiprows=1, header=None, delimiter='\t')
+    inputTsv = pd.read_csv('./sample_data/ft/eccdna_{}all/6/dev.tsv'.format(args.data), skiprows=1, header=None, delimiter='\t')
     inputTsv.columns = ['sequence', 'label']
     inputTsv.drop(['label'], inplace=True, axis=1)
     inputTsv['sequence'] = inputTsv['sequence'].str.split(' ')
