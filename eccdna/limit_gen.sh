@@ -3,17 +3,17 @@
 export ext=512                                                          # number of bp extended from center
 export seq_len=1024                                                     # sequence length
 export limit=1000                                                       # limit sequence length
-export db_dir=mouse                                                     # db directory name
-export eccdna_bed=mouse_circleseq_eccdna_filt_uniq.bed                  # reference eccdna bed file
-export species=mouse                                                    # species name / cell line name
-export geno_bound=mouse.genome                                          # reference genome boundary name
-export geno_ref=GRCm39.fa                                               # reference genome name
-export geno_gap=exclude.sorted.bed                                      # reference genome gap name
-export eccdna_dir=eccdna_${species}_limit${limit}                       # eccdna directory name
+export db_dir=human                                                     # db directory name
+export eccdna_bed=PC-3_circleseq_eccdna_filt_uniq.bed                   # reference eccdna bed file
+export datatype=PC-3                                                    # species name / cell line name
+export geno_bound=hg38_noalt.fa.genome                                  # reference genome boundary name
+export geno_ref=hg38_noalt.fa                                           # reference genome name
+export geno_gap=hg38_noalt_gap.bed                                      # reference genome gap name
+export eccdna_dir=eccdna_${datatype}_limit${limit}                      # eccdna directory name
 
 ### Acoording to sequence length contraint, check original .bed files and produce corresponding positive label .bed file
 ### and sequence need to removed in order to generate a negative label .bed file
-python bed_limit.py --extend $ext --species $species --limit $limit --boundary ./genome/$db_dir/$geno_bound --gap ./genome/$db_dir/$geno_gap --eccdna ./db/$db_dir/$eccdna_bed --output ./db/$db_dir/
+python bed_limit.py --extend $ext --datatype $datatype --limit $limit --boundary ./genome/$db_dir/$geno_bound --gap ./genome/$db_dir/$geno_gap --eccdna ./db/$db_dir/$eccdna_bed --output ./db/$db_dir/
 
 ### Generate negative label .bed file
 bedtools shuffle -i ./db/$db_dir/${species}_circleseq_eccdna_filt_uniq_seq_${seq_len}_${limit}.bed -g ./genome/$db_dir/$geno_bound -excl ./db/$db_dir/${species}_circleseq_eccdna_filt_uniq_excl_${seq_len}_${limit}.bed > ./db/$db_dir/${species}_circleseq_eccdna_filt_uniq_comp_${seq_len}_${limit}.bed

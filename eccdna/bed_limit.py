@@ -35,7 +35,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--extend", type=int, default = 256)                    # sequence length you want to extend from center
     parser.add_argument("--limit", type=int, default = 1000)                    # sequence limit
-    parser.add_argument("--species", type=str)                                  # species name of eccdna
+    parser.add_argument("--datatype", type=str)                                 # species name of eccdna
     parser.add_argument("--boundary", type=str)                                 # genome boundary file path
     parser.add_argument("--gap", type=str)                                      # gap bedfile path
     parser.add_argument("--eccdna", type=str)                                   # eccdna bedfile path

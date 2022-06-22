@@ -14,11 +14,23 @@ python bed_limit.py \
 arguments:
     --extend            sequence length you want to extend from center
     --limit             sequence limit
-    --species           species name of eccdna
+    --datatype          data type name of eccdna
     --boundary          genome boundary file path
     --gap               gap bedfile of whole genome path
     --eccdna            eccdna bedfile path
     --output            output bedfile path
+```
+
+## label_generate.py
+generate train.tsv & dev.tsv for each dataset which matches input type of DNABERT
+
+```
+python label_generate.py --length 1024 --data mouse --cellline embryoMouseBrain
+
+arguments:
+    --length            sequence length
+    --data              species name of eccdna
+    --cellline          type name
 ```
 
 ## limit_gen.sh
@@ -49,15 +61,3 @@ Shell script for pre-processing a new dataset and put the dataset into "../examp
     |   |   |__ dev.tsv (shuffling testing dataset)
     |   |__ ...
     |__ ...
-
-## label_generate.py
-generate train.tsv & dev.tsv for each dataset which matches input type of DNABERT
-
-```
-python label_generate.py --length 1024 --data mouse --cellline embryoMouseBrain
-
-arguments:
-    --length            sequence length
-    --data              species name of eccdna
-    --cellline          type name
-```
