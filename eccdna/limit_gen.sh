@@ -34,13 +34,13 @@ shuf -o dev.tsv < label_${seq_len}_dev.tsv
 shuf -o train.tsv < label_${seq_len}.tsv
 
 ### Create directory for this dataset
-cd ../../../DNABERT/examples/sample_data/ft/
+cd ../../../examples/sample_data/ft/
 mkdir $eccdna_dir
 cd $eccdna_dir/
 mkdir 6
 cd 6/
-cp ../../../../../../eccdna/output/$db_dir/train.tsv ./
-cp ../../../../../../eccdna/output/$db_dir/dev.tsv ./
+cp ../../../../../eccdna/output/$db_dir/train.tsv ./
+cp ../../../../../eccdna/output/$db_dir/dev.tsv ./
 
 ### Add header line to these .tsv files
 cat ../../template.txt ./dev.tsv > ./dev2.tsv
