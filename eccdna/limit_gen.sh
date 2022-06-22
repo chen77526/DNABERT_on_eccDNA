@@ -26,7 +26,7 @@ bedtools getfasta -fi ./genome/$db_dir/$geno_ref -bed ./db/$db_dir/${species}_ci
 bedtools getfasta -fi ./genome/$db_dir/$geno_ref -bed ./db/$db_dir/${species}_circleseq_eccdna_filt_uniq_comp_${seq_len}_${limit}.bed -fo ./output/$db_dir/${species}_negative_${seq_len}_limit.fa.out
 
 ### Cut FASTA format into 6-mers and append its label to every sequence
-python label_generate.py --length $seq_len --data $species
+python label_generate.py --length $seq_len --data $db_dir --cellline $species
 
 ### (very important)Need to rename old label_${seq_len}_dev.tsv & label_${seq_len}.tsv & train.tsv & dev.tsv
 cd output/$db_dir/
