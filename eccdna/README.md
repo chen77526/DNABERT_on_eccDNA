@@ -5,11 +5,11 @@ Filter eccDNA sequence length(< 1000 neucleotides)
 python bed_limit.py \
     --extend 512 \
     --limit 1000 \
-    --species mouse \
-    --boundary ./genome/mouse/mouse.genome \
-    --gap ./genome/mouse/exclude.sorted.bed \
-    --eccdna ./db/mouse/mouse_circleseq_eccdna_filt_uniq.bed \
-    --output ./db/mouse/
+    --datatype PC-3 \
+    --boundary ./genome/human/hg38_noalt.fa.genome \
+    --gap ./genome/human/hg38_noalt_gap.bed \
+    --eccdna ./db/human/PC-3_circleseq_eccdna_filt_uniq.bed \
+    --output ./db/human/
 
 arguments:
     --extend            sequence length you want to extend from center
@@ -25,7 +25,7 @@ arguments:
 generate train.tsv & dev.tsv for each dataset which matches input type of DNABERT
 
 ```
-python label_generate.py --length 1024 --data mouse --cellline embryoMouseBrain
+python label_generate.py --length 1024 --data human --cellline PC-3
 
 arguments:
     --length            sequence length
