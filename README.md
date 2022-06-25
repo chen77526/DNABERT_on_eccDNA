@@ -41,14 +41,16 @@ If you want to predict directly, please place pytorch_model.bin into "DNABERT/ex
 ## Quick start
 
 ### Implement from pre-processing step (you can skip previous steps if you download file directly from our google drive)
+
+### *pre-processing*
 ```
-# pre-processing
-
 chmod u+x ./eccdna/limit_gen.sh
-./eccdna/limit_gen.sh
 
-# fine-tune
+./eccdna/limit_gen.sh -d human -c PC-3_circleseq_eccdna_filt_uniq -t PC-3 -b hg38_noalt.fa.genome -r hg38_noalt.fa -g hg38_noalt_gap.bed
+```
 
+### *fine-tune*
+```
 export KMER=6
 export MODEL_PATH=../6-new-12w-0/
 export DATA_PATH=./sample_data/ft/eccdna_PC-3_comparison/$KMER
@@ -77,9 +79,10 @@ python run_finetune.py \
     --n_process 8 \
     --overwrite_output_dir \
     --overwrite_cache
+```
 
-# prediction
-
+### *prediction*
+```
 export KMER=6
 export MODEL_PATH=./ft/eccdna_PC-3_comparison/$KMER
 export DATA_PATH=./sample_data/ft/eccdna_PC-3_comparison/$KMER
@@ -101,6 +104,33 @@ python run_finetune.py \
     --train_type PC-3 \
     --test_type PC-3
 ```
+---
+## Advance usage
+
+### *pre-processing*
+```
+Usage: Preprocess-DNABERT [OPTIONS] [-d <db_dir>] [-c <eccdna_bed>] [-t <datatype>] [-b <geno_bound>] [-r <geno_ref>] [-g <geno_gap>]
+    -d, --db_dir      db directory name
+    -c, --eccdna_bed  reference eccdna bed file
+    -t, --datatype    species name / cell line name
+    -b, --geno_bound  reference genome boundary name
+    -r, --geno_ref    reference genome name
+    -g, --geno_gap    reference genome gap name
+
+  Options:
+    -e, --ext         number of bp extended from eccdna center, Default=512
+    -s, --seq_len     sequence length, Default=1024
+    -l, --limit       limit sequence length, Default=1000
+    -h, --help        show this help messages
+
+  Output: tsv file with binary label ( seq_len-5+1 columns ):
+  0 - seq_len-5 : DNA sequences in 6-mer format
+  -1            : 0 or 1, 1 represent that this sequence contains eccdna
+```
+
+### *fine-tune and prediction*
+
+### refer to [DNABERT github](https://github.com/jerryji1993/DNABERT)
 ---
 ## *./eccDNA/*
 #### EccDNA data pre-processing about DNABERT ([README](https://github.com/chen77526/DNABERT_on_eccDNA/blob/dev/eccdna/README.md))

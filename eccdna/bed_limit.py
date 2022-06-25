@@ -10,8 +10,8 @@ def mainf():
     args.extend = int(args.extend)
     with open('{}'.format(args.gap), 'r') as gap_f:
         with open('{}'.format(args.eccdna), 'r') as input_f:
-            with open('{}{}_circleseq_eccdna_filt_uniq_seq_{}_{}.bed'.format(args.output, args.species, args.extend * 2, args.limit), 'w') as output_f:
-                with open('{}{}_circleseq_eccdna_filt_uniq_excl_{}_{}.bed'.format(args.output, args.species, args.extend * 2, args.limit), 'w') as output_ex:
+            with open('{}{}_circleseq_eccdna_filt_uniq_seq_{}_{}.bed'.format(args.output, args.datatype, args.extend * 2, args.limit), 'w') as output_f:
+                with open('{}{}_circleseq_eccdna_filt_uniq_excl_{}_{}.bed'.format(args.output, args.datatype, args.extend * 2, args.limit), 'w') as output_ex:
                     ### write genome gap into exclude .bed file (for generating negative label .bed)
                     for line in gap_f:
                         name, start, end = line.split('\t')
