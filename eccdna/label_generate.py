@@ -34,9 +34,9 @@ def mainf():
                             negative.append(seq2kmer(line.split('\n')[0], 6))
                         num2 += 1
                     
-                    ### randomly select sequence into validation set (10%) and add label on each sequence
-                    positive_dev = random.sample(positive, len(positive)//10)
-                    negative_dev = random.sample(negative, len(negative)//10)
+                    ### randomly select sequence into validation set (20%) and add label on each sequence
+                    positive_dev = random.sample(positive, len(positive)//5)
+                    negative_dev = random.sample(negative, len(negative)//5)
                     for seq in positive_dev:
                         output_f2.writelines("%s\t%d\n" % (seq, 1))
                         positive.remove(seq)
