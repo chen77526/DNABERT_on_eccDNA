@@ -53,10 +53,10 @@ chmod u+x ./eccdna/limit_gen.sh
 ```
 export KMER=6
 export MODEL_PATH=../6-new-12w-0/
-export DATA_PATH=./sample_data/ft/eccdna_PC-3_comparison/$KMER
-export OUTPUT_PATH=./ft/eccdna_PC-3_comparison/$KMER
+export DATA_PATH=./sample_data/ft/eccdna_PC-3_limit1000/$KMER
+export OUTPUT_PATH=./ft/eccdna_PC-3_limit1000/$KMER
 
-python run_finetune.py \
+python3 run_finetune.py \
     --model_type dnalongcat \
     --tokenizer_name=dna$KMER \
     --model_name_or_path $MODEL_PATH \
@@ -84,11 +84,11 @@ python run_finetune.py \
 ### *prediction*
 ```
 export KMER=6
-export MODEL_PATH=./ft/eccdna_PC-3_comparison/$KMER
-export DATA_PATH=./sample_data/ft/eccdna_PC-3_comparison/$KMER
-export PREDICTION_PATH=./result/eccdna_PC-3_comparison/$KMER
+export MODEL_PATH=./ft/eccdna_PC-3_limit1000/$KMER
+export DATA_PATH=./sample_data/ft/eccdna_PC-3_limit1000/$KMER
+export PREDICTION_PATH=./result/eccdna_PC-3_limit1000/$KMER
 
-python run_finetune.py \
+python3 run_finetune.py \
     --model_type dnalongcat \
     --tokenizer_name=dna$KMER \
     -model_name_or_path $MODEL_PATH \
