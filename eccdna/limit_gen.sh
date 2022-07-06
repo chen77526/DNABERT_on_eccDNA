@@ -65,6 +65,8 @@ parseArgs() {
 parseArgs "$@"
 
 export eccdna_dir=eccdna_${datatype}_limit${limit}                      # eccdna directory name
+#Change directory to where the script is
+cd "${0%/*}"
 
 ### Acoording to sequence length contraint, check original .bed files and produce corresponding positive label .bed file
 ### and sequence need to removed in order to generate a negative label .bed file
@@ -72,17 +74,17 @@ python bed_limit.py --extend $ext --datatype $datatype --limit $limit --boundary
 
 ### Generate negative label .bed file
 bedtools shuffle -i ./db/$db_dir/${datatype}_circleseq_eccdna_filt_uniq_seq_${seq_len}_${limit}.bed -g ./genome/$db_dir/$geno_bound -excl ./db/$db_dir/${datatype}_circleseq_eccdna_filt_uniq_excl_${seq_len}_${limit}.bed > ./db/$db_dir/${datatype}_circleseq_eccdna_filt_uniq_comp_${seq_len}_${limit}.bed
-
+echo "Finish generating negative label data"
 ### Check if negative label .bed is intersect with positive label .bed
 bedtools intersect -a ./db/$db_dir/${datatype}_circleseq_eccdna_filt_uniq_comp_${seq_len}_${limit}.bed -b ./db/$db_dir/${datatype}_circleseq_eccdna_filt_uniq_excl_${seq_len}_${limit}.bed
 
 ### Acquire its corresponding FASTA file
 bedtools getfasta -fi ./genome/$db_dir/$geno_ref -bed ./db/$db_dir/${datatype}_circleseq_eccdna_filt_uniq_seq_${seq_len}_${limit}.bed -fo ./output/$db_dir/${datatype}_positive_${seq_len}_limit.fa.out
 bedtools getfasta -fi ./genome/$db_dir/$geno_ref -bed ./db/$db_dir/${datatype}_circleseq_eccdna_filt_uniq_comp_${seq_len}_${limit}.bed -fo ./output/$db_dir/${datatype}_negative_${seq_len}_limit.fa.out
-
+echo "Finish converting bed files to fasta files"
 ### Cut FASTA format into 6-mers and append its label to every sequence
 python label_generate.py --length $seq_len --data $db_dir --cellline $datatype
-
+echo "Finish generating 6-mers"
 ### (very important)Need to rename old label_${seq_len}_dev.tsv & label_${seq_len}.tsv & train.tsv & dev.tsv
 cd output/$db_dir/
 shuf -o dev.tsv < label_${seq_len}_dev.tsv
@@ -90,12 +92,12 @@ shuf -o train.tsv < label_${seq_len}.tsv
 
 ### Create directory for this dataset
 cd ../../../examples/sample_data/ft/
-mkdir $eccdna_dir
+if  [ ! -d "$eccdna_dir" ]; then mkdir $eccdna_dir; fi
 cd $eccdna_dir/
-mkdir 6
+if [ ! -d "./6/" ]; then mkdir "./6"; fi
 cd 6/
-cp ../../../eccdna/output/$db_dir/train.tsv ./
-cp ../../../eccdna/output/$db_dir/dev.tsv ./
+cp ../../../../../eccdna/output/$db_dir/train.tsv ./
+cp ../../../../../eccdna/output/$db_dir/dev.tsv ./
 
 ### Add header line to these .tsv files
 cat ../../template.txt ./dev.tsv > ./dev2.tsv
@@ -108,3 +110,4 @@ mv train2.tsv train.tsv
 ### Remove sequence which contains "N"(unknown nucleotide)
 sed -i '/N/d' train.tsv
 sed -i '/N/d' dev.tsv
+echo "Finish generating train.tsv and dev.tsv"
