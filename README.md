@@ -91,7 +91,7 @@ export PREDICTION_PATH=./result/eccdna_PC-3_limit1000/$KMER
 python3 run_finetune.py \
     --model_type dnalongcat \
     --tokenizer_name=dna$KMER \
-    -model_name_or_path $MODEL_PATH \
+    --model_name_or_path $MODEL_PATH \
     --task_name dnaprom \
     --do_predict \
     --data_dir $DATA_PATH \
