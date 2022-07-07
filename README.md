@@ -140,6 +140,11 @@ For visualizing output of DNABERT. Transfer output token ID back to DNA sequence
 
 output file path : ./examples/tsv_result/
 
-argument : --data -> dataset name
+argument : --data -> dataset name, --model -> fine-tuned model name
+```
+python3 ./examples/result_transform.py \
+    --model PC-3 \
+    --data PC-3
+```
 
 
