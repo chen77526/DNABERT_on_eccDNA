@@ -24,7 +24,6 @@ if __name__ == '__main__':
     parser.add_argument("--model", type=str, default='C4-2')
     args = parser.parse_args()
 
-    # eccdna_{}all is a folder which contains only dev.tsvd. dev.tsv is a concatenated file of original train.tsv and dev.tsv
     inputTsv = pd.read_csv('./sample_data/ft/eccdna_{}_limit1000/6/dev.tsv'.format(args.data), skiprows=1, header=None, delimiter='\t')
     inputTsv.columns = ['sequence', 'label']
     inputTsv.drop(['label'], inplace=True, axis=1)
