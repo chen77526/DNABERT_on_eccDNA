@@ -35,7 +35,7 @@ Please place dev.tsv & train.tsv into "DNABERT/example/sample_data/ft/eccdna_PC-
 ### *Implement only prediction step from PC-3 fine-tuned model*
 [PC-3 sample model](https://drive.google.com/drive/folders/1hi_nr4_9CbKblrrrrSyL-o5RcpmtF8YI?usp=sharing)
 
-If you want to predict directly, please place pytorch_model.bin into "DNABERT/ft/eccdna_PC-3_limit1000/6/".
+If you want to predict directly, please place pytorch_model.bin into "DNABERT/example/ft/eccdna_PC-3_limit1000/6/".
 
 ---
 ## Quick start
