@@ -35,7 +35,7 @@ Please place dev.tsv & train.tsv into "DNABERT/example/sample_data/ft/eccdna_PC-
 ### *Implement only prediction step from PC-3 fine-tuned model*
 [PC-3 sample model](https://drive.google.com/drive/folders/1hi_nr4_9CbKblrrrrSyL-o5RcpmtF8YI?usp=sharing)
 
-If you want to predict directly, please place pytorch_model.bin into "DNABERT/example/ft/eccdna_PC-3_limit1000/6/".
+If you want to predict directly, please place pytorch_model.bin into "DNABERT/ft/eccdna_PC-3_limit1000/6/".
 
 ---
 ## Quick start
@@ -91,7 +91,7 @@ export PREDICTION_PATH=./result/eccdna_PC-3_limit1000/$KMER
 python3 run_finetune.py \
     --model_type dnalongcat \
     --tokenizer_name=dna$KMER \
-    -model_name_or_path $MODEL_PATH \
+    --model_name_or_path $MODEL_PATH \
     --task_name dnaprom \
     --do_predict \
     --data_dir $DATA_PATH \
