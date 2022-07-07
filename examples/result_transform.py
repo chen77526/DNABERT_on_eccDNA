@@ -21,10 +21,11 @@ def findTPTN(ID):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--data", type=str, default='C4-2')
+    parser.add_argument("--model", type=str, default='C4-2')
     args = parser.parse_args()
 
     # eccdna_{}all is a folder which contains only dev.tsvd. dev.tsv is a concatenated file of original train.tsv and dev.tsv
-    inputTsv = pd.read_csv('./sample_data/ft/eccdna_{}all/6/dev.tsv'.format(args.data), skiprows=1, header=None, delimiter='\t')
+    inputTsv = pd.read_csv('./sample_data/ft/eccdna_{}_limit1000/6/dev.tsv'.format(args.data), skiprows=1, header=None, delimiter='\t')
     inputTsv.columns = ['sequence', 'label']
     inputTsv.drop(['label'], inplace=True, axis=1)
     inputTsv['sequence'] = inputTsv['sequence'].str.split(' ')
@@ -42,6 +43,4 @@ if __name__ == '__main__':
         
     inputTsv_seq.to_csv('{}/{}_seq.tsv'.format(outdir, args.data), sep='\t')
 
-    dataType = ['C4-2', 'ES2', 'HeLaS3', 'LnCap', 'OVCAR8', 'PC-3', 'U937', 'leukocytes', 'muscle', 'pool_LCN', 'pool_LCT']
-    for typeID in dataType:
-        result = findTPTN(typeID)
+    result = findTPTN(args.model)
