@@ -16,7 +16,7 @@ def findTPTN(ID):
     focus_re['result'] = np.select(conditions, choices)
     result = pd.Series(focus_re['result'])
     print(result)
-    result.to_csv('./tsv_result/{}/{}_{}_result.tsv'.format(args.data, ID, args.data), sep='\t')
+    result.to_csv('./tsv_result/{}/{}_{}_result.tsv'.format(ID, ID, args.data), sep='\t')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -36,7 +36,7 @@ if __name__ == '__main__':
     inputTsv_seq = pd.Series(inputTsv_seq[inputTsv_seq.columns].values.tolist()).str.join('')
     print(inputTsv_seq)
     
-    outdir = './tsv_result/{}'.format(args.data)
+    outdir = './tsv_result/{}'.format(args.model)
     if not os.path.exists(outdir):
         os.mkdir(outdir)
         
