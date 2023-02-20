@@ -18,7 +18,7 @@ def findTPTN(ID):
     result = pd.Series(focus_re['result'])
     print(result)
     # modified
-    result.to_csv('./tsv_result/{}/{}_{}_result_{}.tsv'.format(args.data, ID, args.data, args.len), sep='\t')
+    result.to_csv('./tsv_result/{}/{}_{}_result_{}.tsv'.format(ID, args.data, args.data, args.len), sep='\t')
     return result
 
 if __name__ == '__main__':

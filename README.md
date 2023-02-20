@@ -140,13 +140,28 @@ For visualizing output of DNABERT. Transfer output token ID back to DNA sequence
 
 output file path : ./examples/tsv_result/
 
-argument : --data -> dataset name, --model -> fine-tuned model name
+argument:
+--data  : dataset name
+--len   : sequence length
 ```
-python3 ./examples/result_transform.py \
-    --model PC-3 \
-    --data PC-3
+python3 ./examples/result_transform.py --data PC-3 --len 1024
 ```
 
+## *./examples/seq_match.py*
+Combine the prediction results of both models, sequence index, and comparison result of two models into a tsv file
+
+output file path : ./examples/location/
+
+argument:
+--modelType     : training model type
+--testSetType   : testing data set type
+--ref           : reference sequence file name (positive data set)
+--len           : sequence length
+--sel           : self-testing or not
+
+```
+python3 ./examples/seq_match.py --modelType PC-3 --testSetType PC-3 --ref human_PC-3_positive_1024_limit.fa.out --len 1024 -sel True
+```
 
 # DNABERT
 This repository includes the implementation of 'DNABERT: pre-trained Bidirectional Encoder Representations from Transformers model for DNA-language in genome'. Please cite our paper if you use the models or codes. The repo is still actively under development, so please kindly report if there is any issue encountered.
