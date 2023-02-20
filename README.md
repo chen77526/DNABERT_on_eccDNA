@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ## Citation
 Yanrong Ji, Zhihan Zhou, Han Liu, Ramana V Davuluri, DNABERT: pre-trained Bidirectional Encoder Representations from Transformers model for DNA-language in genome, Bioinformatics, 2021;, btab083, https://doi.org/10.1093/bioinformatics/btab083
 
@@ -149,7 +148,6 @@ python3 ./examples/result_transform.py \
 ```
 
 
-=======
 # DNABERT
 This repository includes the implementation of 'DNABERT: pre-trained Bidirectional Encoder Representations from Transformers model for DNA-language in genome'. Please cite our paper if you use the models or codes. The repo is still actively under development, so please kindly report if there is any issue encountered.
 
@@ -491,4 +489,3 @@ Please kindly make sure that you satisfied all system requirements for DNABERT, 
 #### 2. Can DNABERT run on sequences longer than 512?
 
 #### 3. Can DNABERT be extended to multi-class classification?
->>>>>>> 2946e8dbe03775f97f3493f752b901466a533ad0
