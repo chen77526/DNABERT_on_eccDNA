@@ -18,8 +18,8 @@ def seq2kmer(seq, k):
     return kmers.upper()
 
 def mainf():
-    with open ('./output/{}/label_{}.tsv'.format(args.data, args.length), 'w') as output_f1:
-        with open ('./output/{}/label_{}_dev.tsv'.format(args.data, args.length), 'w') as output_f2:
+    with open ('./output/{}/label_{} ({}_limit).tsv'.format(args.data, args.length, args.data), 'w') as output_f1:
+        with open ('./output/{}/label_{}_dev ({}_limit).tsv'.format(args.data, args.length, args.data), 'w') as output_f2:
             with open('./output/{}/{}_{}_positive_{}_limit.fa.out'.format(args.data, args.data, args.cellline, args.length), 'r') as input_f1:
                 with open('./output/{}/{}_{}_negative_{}_limit.fa.out'.format(args.data, args.data, args.cellline, args.length), 'r') as input_f2:
                     ### split sequence into 6-mers
